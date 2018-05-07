@@ -24,4 +24,19 @@
 - R-23. crawling
 - R-24. crawling exercise
 - R-25. DT의 시대, 통계기초개념 요약
-- R-26. 
+- R-26. cut(), histogram, stem and leaf daiagram
+- R-27. 산술평균, 가중평균, 기하평균, 조화평균, 절단평균, 범위, 편차, 분산, 표준편차
+- R-28. 표준화, cross-table, coefficient of variation, percentile, quartile
+- R-29. machine learning, kNN
+- R-30. kNN, 정규화, 표준점수
+- R-31. exercise
+- R-32. NaiveBayes, 라플라스 추정기, naiveBayes(), predict()
+- R-33. mushroom
+- R-34. 결정트리, information.gain(), C5.0()
+- R-35. 군집합(kmeans)
+- R-36. fviz_cluster(), Voronoi Diagram
+- R-37. 상관분석, 회귀분석
+- R-38. 의료보험, 와인
+- R-39. 연관분석, apriori(), network node graph
+- R-40. exercise
+- R-41. wine 추가연구
