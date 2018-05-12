@@ -850,3 +850,23 @@ emp_mgr_sal <- merge(emp,emp,by.x = "MANAGER_ID", by.y = "EMPLOYEE_ID")[,c("LAST
 names(emp_mgr_sal) <- c("emp_name", "emp_sal", "mgr_name", "mgr_sal")
 
 subset(emp_mgr_sal, emp_mgr_sal$emp_sal > emp_mgr_sal$mgr_sal)
+
+
+#[문제126] 자신의 부서 평균 급여보다 많이 받는 사원들의 정보를 출력하세요.(sqldf 이용하세요)
+
+sqldf("select * 
+      from emp e
+      where salary > (select avg(salary) from emp where department_id = e.department_id)")
+
+df <- sqldf("select *
+            from (select department_id, avg(salary) avg_sal from emp group by department_id) s join
+            emp e
+            using(department_id)
+            where e.salary > s.avg_sal")
+
+
+#[문제67] last_name의 글자의 수가 10이상인 사원의 employee_id, last_name 출력하세요.
+
+sqldf("select employee_id, last_name
+      from emp
+      where length(last_name) >= 10")
