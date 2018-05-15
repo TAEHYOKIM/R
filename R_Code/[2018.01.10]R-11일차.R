@@ -207,13 +207,14 @@ odd_even_mat(x)
 class(sapply(x, function(x){ifelse(x%%2 == 0, "짝수", "홀수")})) 
 #질적자료 : 혈액형, 성비(이산) 양적자료 : 키, 몸무게(연속) 그룹핑 여부에 따라 위 자료가 구분이 됨
 
-11-1. pie chart
-ex) 회사별 연매출액
 
+## 11-1. pie chart
+# ex) 회사별 연매출액
 - A회사 : 100억
 - B회사 : 50억
 - C회사 : 30억
 - D회사 : 10억
+
 s <- c(100,50,30,10)
 company <- c("A회사", "B회사", "C회사", "D회사")
 pie() : pie chart 만드는 함수
@@ -222,12 +223,14 @@ pie(s, company)
 pie(s, labels = company, 
     main = "회사별 매출액", 
     col = c("red", "blue", "green", "yellow"))
-col 자동설정
+
+# col 자동설정
 rainbow(length(s))  # 무지개색 
 heat.colors(12)     # 적색, 황색에 치우친 색
 terrain.colors(12)  # 지구 지형색
 topo.colors(12)     # 청색에 가까운 색
 cm.colors(12)       # 핑크, 블루  
+
 pie(s, labels = company, 
     main = "회사별 매출액", 
     col = rainbow(length(s)))
@@ -247,12 +250,14 @@ pie(s, labels = company,
 pie(s, labels = company, 
     main = "회사별 매출액", 
     col = cm.colors(4))
-clockwise : 시계방향(TRUE), 반시계방향(FALSE)
+
+# clockwise : 시계방향(TRUE), 반시계방향(FALSE)
 pie(s, labels = company, 
     main = "회사별 매출액", 
     clockwise = F,
     col = rainbow(4))
-init.angle : 시작되는 지점의 각도를 지정
+
+# init.angle : 시작되는 지점의 각도를 지정
 pie(s, labels = company, 
     main = "회사별 매출액", 
     clockwise = F,
@@ -267,11 +272,17 @@ pie(s, labels = label,
     clockwise = F,
     init.angle = 90,
     col = cm.colors(4))
-11-2. pie chart(3D)
-- install.packages("plotrix") -> library("plotrix")
-explore : 부채꼴들의 간격, labelcex : label의 문자 크기
+
+
+## 11-2. pie chart(3D)
+install.packages("plotrix")
+library("plotrix")
+
+# explore : 부채꼴들의 간격, labelcex : label의 문자 크기
 pie3D(s, labels = label, explode = 0.1, labelcex = 2)
-[문제149] 부서별 급여의 총액을 pie chart로 그려보세요
+
+
+#[문제149] 부서별 급여의 총액을 pie chart로 그려보세요
 
 agg <- aggregate(SALARY~DEPARTMENT_ID, emp, sum)
 pie(agg$SALARY, agg$DEPARTMENT_ID, init.angle = 90, clockwise = F)
@@ -296,20 +307,23 @@ pie3D(emp_sal$`sum(SALARY)`,
       clockwise = F, 
       col = rainbow(nrow(emp_sal)), border = NA, explode =  labelcex = 0.8)
 barplot(t)
-11-3. bar chart (!= 히스토그램)
+
+
+## 11-3. bar chart (!= 히스토그램)
 sales <- c(150,100,70,30)
 team <- c("영업 1팀", "영업 2팀", "영업 3팀", "영업 4팀")
-- height : 막대크기를 나타내는 벡터
-- width : 막대너비
-- names.arg : 막대아래 출력될 이름에 대한 벡터
-- col : 막대색상
-- main : 제목
-- sub : 부제목
-- horiz : TRUE(수평막대), FALSE(수직막대)
-- xlab : x축 label
-- ylab : y축 label
-- xlim : x축 크기
-- ylim : y축 크기
+# - height : 막대크기를 나타내는 벡터
+# - width : 막대너비
+# - names.arg : 막대아래 출력될 이름에 대한 벡터
+# - col : 막대색상
+# - main : 제목
+# - sub : 부제목
+# - horiz : TRUE(수평막대), FALSE(수직막대)
+# - xlab : x축 label
+# - ylab : y축 label
+# - xlim : x축 크기
+# - ylim : y축 크기
+
 bp <- barplot(height = sales, 
               width = .5, 
               names.arg = team, 
@@ -327,8 +341,10 @@ text(x = bp, y = sales, labels = round(sales), pos = 3)
 # pos = 2 : 막대 끝 선의 왼쪽
 # pos = 3 : 막대 끝 선의 위쪽
 # pos = 4 : 막대 끝 선의 오른쪽
+
 VADeaths
 t(VADeaths)
+# help(VADeaths)
 
 barplot(height = t(VADeaths * .1), ylim = c(0,40), col = rainbow(4), 
         legend = c("RM","RF","UM","UF"))
