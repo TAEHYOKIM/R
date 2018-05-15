@@ -177,7 +177,9 @@ legend('topright',
        pch=15,
        col=c('blue','green','purple'),
        cex=0.9, pt.cex=1)
-[문제160] 학생들의 이름을 기준으로 과목점수를 그룹형 막대그래프로 생성하세요.
+
+
+#[문제160] 학생들의 이름을 기준으로 과목점수를 그룹형 막대그래프로 생성하세요.
 
 barplot(t(as.matrix(ex_159[,2:4])),
         names.arg = ex_159[,1],
@@ -195,7 +197,8 @@ barplot(t_159,
         legend.text = rownames(t_159), args.legend = list(cex = 0.5))
 abline(h=seq(0,100,20), col='black',lty=3)
 box()
-선생님 풀이
+
+#선생님 풀이
 bp <- barplot(t, names.arg=names(t), beside=TRUE, ylim=c(0,110),
               xlab='이름', ylab='성적',
               col=c('blue','green','purple'),
@@ -209,7 +212,9 @@ legend('topright',
        cex=0.8, pt.cex=0.6)
 plot(cars, main = "Stopping Distance versus Speed")
 lines(stats::lowess(cars))
-[문제161] 창업건수.csv 파일에 데이터 중에 년도별 치킨집 창업 건수를 막대그래프로 생성하세요.
+
+
+#[문제161] 창업건수.csv 파일에 데이터 중에 년도별 치킨집 창업 건수를 막대그래프로 생성하세요.
 
 opn <- read.csv("C:/R/창업건수.csv", header = T, stringsAsFactors = F) cls <- read.csv("C:/R/폐업건수.csv", header = T, stringsAsFactors = F)
 
@@ -217,7 +222,8 @@ class(opn$X)
 t <- tapply(opn$치킨, opn$X, max)
 barplot(t, main = "치킨집 창업건수", ylim = c(0,1500)) ; box()
 abline(h = seq(0,1400,200), lty = 3)
-선생님 풀이
+
+#선생님 풀이
 create_cnt <- read.csv("c:/r/창업건수.csv",header=T) drop_cnt <- read.csv("c:/r/폐업건수.csv",header=T)
 
 create_cnt drop_cnt
@@ -231,7 +237,9 @@ barplot(opn$치킨집, names.arg = opn$X, col = "skyblue",
         ylim = c(0,1400), cex.axis = 0.9, las = 1)
 abline(h = seq(0,1400, 200), lty = 3, col = "red")
 box(col = "orange")
-[문제162] 년도별 치킨집 창업, 폐업 건수를 그룹형 막대그래프로 생성하세요.
+
+
+#[문제162] 년도별 치킨집 창업, 폐업 건수를 그룹형 막대그래프로 생성하세요.
 
 ex_162 <- rbind(opn$치킨집, cls$치킨집)
 ex_162
@@ -244,7 +252,8 @@ bp_162 <- barplot(ex_162, names.arg = opn$X, beside = T,
 
 text(x = bp_162[ex_162 == max(ex_162)], 
      y = max(ex_162), labels = "AI발병", pos = 3, col = "red")
-선생님 풀이
+
+#선생님 풀이
 graphics.off()
 
 x <- rbind(create_cnt$치킨,drop_cnt$치킨) x
@@ -253,7 +262,8 @@ barplot(x, main="년도별 치킨집 창업,폐업", names.arg=create_cnt$X,col=
 
 barplot(x, main="년도별 치킨집 창업,폐업", names.arg=create_cnt$X,col=c("blue","red"), ylim=c(0,4000), beside=T, legend=c("창업","폐업") )
 
-[문제163] 2014 년도 업종별 창업 비율을 원형 그래프로 생성하세요.
+
+#[문제163] 2014 년도 업종별 창업 비율을 원형 그래프로 생성하세요.
 
 opn_2014 <- opn[opn$X==2014, -1]
 opn_2014
@@ -261,10 +271,13 @@ per <- round(opn_2014 * 100 /sum(opn_2014))
 pie(as.numeric(opn_2014), labels = paste(names(opn_2014), per, '%'),
     main = '2014년 업종별 창업비율', font.main = 11,
     init.angle = 110, col = rainbow(ncol(opn_2014)))
-번외 연구 : 자료 추출
+
+#번외 연구 : 자료 추출
 subset(opn, X == 2014, select = -1)
 filter(opn, X == 2014)[,-1]
-[문제164] 년도를 입력하면 해당 년도의 원형 그래프 생성할 수 있는 함수를 생성하세요.
+
+
+#[문제164] 년도를 입력하면 해당 년도의 원형 그래프 생성할 수 있는 함수를 생성하세요.
 
 show_pie(2006)
 
@@ -289,7 +302,8 @@ show_pie(2011)
 show_pie(2012)
 show_pie(2013)
 show_pie(2014)
-위 개선안
+
+#위 개선안
 show_pies <- function(x,y){
   tmp <- y - x + 1
   
@@ -324,7 +338,9 @@ par(mfrow=c(1,3))
 pie(as.numeric(opn_2014), labels = paste(names(opn_2014), per, '%'),
     main = '2014년 업종별 창업비율', font.main = 11,
     init.angle = 110, col = rainbow(ncol(opn_2014)))
-13-1. 그래프 사진파일로 저장하기
+
+
+## 13-1. 그래프 사진파일로 저장하기
 library(jpeg)
 jpeg("c:/r/1.jpg")
 
@@ -338,23 +354,28 @@ pie(as.numeric(opn_2014), labels = paste(names(opn_2014), per, '%'),
     main = '2014년 업종별 창업비율', font.main = 11,
     init.angle = 110, col = rainbow(ncol(opn_2014)))
 dev.off()
-13-2. 산점도(scatter plot)
-- 주어진 데이터를 점으로 표시해서 흩뿌리 듯, 시각화한 그래프
-- 데이터의 실제값들이 표시되므로 데이터의 분포를 한 눈에 파악할 수 있다.
 
-* db file scatter read ~ full table scan
-x - y plotting
 
-산포도(상관도)
-- 자료에서 2개 항목 간의 관계를 아는데는 산포도가 편리하다.
-- 자료의 분산 상황을 나타내는 수의 값으로 변량과 분포가 주어졌을 때, 
-변량이 분포의 중심값에 흩어진 정도
+## 13-2. 산점도(scatter plot)
+# - 주어진 데이터를 점으로 표시해서 흩뿌리 듯, 시각화한 그래프
+# - 데이터의 실제값들이 표시되므로 데이터의 분포를 한 눈에 파악할 수 있다.
 
-* 회귀분석이 여기서 부터 시작된다
-library(help = datasets)
+# * db file scatter read ~ full table scan
+# x - y plotting
+
+# 산포도(상관도)
+# - 자료에서 2개 항목 간의 관계를 아는데는 산포도가 편리하다.
+# - 자료의 분산 상황을 나타내는 수의 값으로 변량과 분포가 주어졌을 때, 
+# 변량이 분포의 중심값에 흩어진 정도
+
+# * 회귀분석이 여기서 부터 시작된다
+
+library(help = datasets)  # R 내장된 dataset list check
+
 help(women)
 Average Heights and Weights for American Women
 
+"""
 Description
 
 This data set gives the average heights and weights for American women aged 30???39.
@@ -363,13 +384,15 @@ Format
 
 A data frame with 15 observations on 2 variables.
 
-[,1]	height	numeric	Height (in) [,2]	weight	numeric	Weight (lbs) Details
+[,1]	height	numeric	Height (in) 
+[,2]	weight	numeric	Weight (lbs) Details
+"""
 
-contour(volcano)
 women
 str(women)
 plot(women$weight)
 plot(women$height)
+"""
 1) type = p(점), l(선), b(점,선), c(b의 선), o(점 위의 선), h(수직선), s(계단형), S, n(나타나지 않음)
 
 2) lty : 선의 유형 0 ~ 6
@@ -390,12 +413,15 @@ plot(women$height)
 - 19 ~ 25 : R언어가 확장한 특수문자
 
 5) cex : 점의 크기(기본값 1)   
+"""
 plot(x = women$height, y = women$weight,
      xlab = "키", ylab = "몸무게",
      main = "여성의 키와 몸무게",
      sub = "미국 70년대 기준",
      type = "c", lty = 3, lwd = 2, pch = 23)
-13-3. Orange data
+
+
+## 13-3. Orange data
 help("Orange")
 
 a1 <- Orange[Orange$Tree == 1, 2:3]
