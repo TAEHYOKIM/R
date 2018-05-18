@@ -20,7 +20,7 @@
 - R-19. 서울시 게시판, 제주 지명, ggmap
 - R-20. regexpr, grepexpr, Shilla Hotel Review
 - R-21. 시군구별 이동현황, seoul trip
-- R-22. 제주도 여행경로, seoul, tm(text mining), obama 연설문, 문재인 연설물
+- R-22. 제주도 여행경로, seoul, tm(text mining), obama 연설문, 문재인 연설문, ...
 - R-23. crawling
 - R-24. crawling exercise
 - R-25. DT의 시대, 통계기초개념 요약
