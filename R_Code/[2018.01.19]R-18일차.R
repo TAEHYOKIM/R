@@ -115,8 +115,8 @@ wordcloud(names(word_cn1), freq = word_cn1, scale = c(5,.5),
 #random.color : 글자의 색상을 임의로 지정 
 #rot.per : 단어배치를 90도 각도로 출
 #colors : 출력될 단어들의 색상 
-#word_df <- as.data.frame(word_cn1)
-#names(word_df) <- c("word","cnt")
+word_df <- as.data.frame(word_cn1)
+names(word_df) <- c("word","cnt")
 
 orderBy(~-cnt,word_df)
 word_df <- word_df[1 < str_length(word_df$word) & word_df$cnt >= 5,]
