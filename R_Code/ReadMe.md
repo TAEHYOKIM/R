@@ -39,4 +39,3 @@
 - R-38. 의료보험, 와인
 - R-39. 연관분석, apriori(), network node graph
 - R-40. exercise
-- R-41. wine 추가연구
