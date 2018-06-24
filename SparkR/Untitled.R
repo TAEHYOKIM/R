@@ -1,12 +1,3 @@
-.libPaths()
-
-
-library(sparkR, lib.loc="/usr/local/Cellar/apache-spark/2.3.1/libexec")
-library(SparkR)
-install.packages("SparkR")
-Sys.getenv('SPARK_HOME')
-Sys.setenv(SPARK_HOME = )
-
 install.packages("rJava")
 library(rJava)
 
@@ -26,28 +17,43 @@ file.path(spark_path,'libexec')
 
 Sys.setenv(SPARK_HOME='/usr/local/Cellar/apache-spark/2.3.1/libexec')
 Sys.setenv(JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_172.jdk/Contents/Home')
-library(SparkR)
-Sys.getenv()
-.libPaths()
+Sys.setenv(JAVA_HOME='/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home')
 
-sparkR.session(master="local[*]", appName = "HBK", sparkConfig = list(spark.driver.memory="2g"))
-# sqlContext <- sparkRSQL.init(sc)
-# df <- createDataFrame(sqlContext, iris) 
+
+
+#경로에 추가
+.libPaths(c(Sys.getenv('SPARK_HOME'),.libPaths()))
+
+#check
+.libPaths()
+Sys.getenv('JAVA_HOME')
+
+#SparkR 다운
+install.packages('SparkR')
+library(SparkR)
+
+## ex.01
+sc <- sparkR.session(master="local[*]", appName = "HBK", sparkConfig = list(spark.driver.memory="2g"))
+sqlContext <- sparkRSQL.init(sc)
+df <- createDataFrame(sqlContext, iris) 
 head(df)
 help("Deprecated") 
 
+## ex.02
 iris1 <- as.DataFrame(iris)
 showDF(iris1)
+
 sparkR.session.stop()
 
 
+dyn.load("/Library/Java/JavaVirtualMachines/jdk1.8.0_172.jdk/Contents/Home/jre/lib/server/libjvm.dylib")
 library(rJava)
-
 library(dplyr)
 
 install.packages("sparklyr")
 library(sparklyr)
 ?spark_connect
+
 sc <- spark_connect(master = 'local', app_name = 'sparklyr')
 sc
 
@@ -61,3 +67,5 @@ a = as.DataFrame(flights)
 head(a)
 
 sparkR.session.stop()
+
+
