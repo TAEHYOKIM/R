@@ -1,0 +1,90 @@
+---
+title: "carAccident_2017"
+author: "Kim tae hyo"
+date: '2018 8 2 '
+output: html_document
+---
+***
+
+### 1. 개 요
+ - 2017년 전국 자동차 사고에 관련된 데이터를 바탕으로 분석 및 예측을 실습해 보자.
+ - 공공데이터(https://www.data.go.kr/dataset/15003493/fileData.do) 에서 자료를 다운 받을 수 있다.
+
+
+### 2. 목 적 
+ - 2017년간 일어난 자동차 사고를 통해 장소별, 시간별 특징을 분석해 본다.
+ - 시간, 장소에 따른 피해정도(경상, 중상, 사망) 간의 관계를 파악하고 샘플데이터에 대한 분류값을 예측해 보자. ==> 응급구조 배치에 참조
+ - 피해정도(경상, 중상, 사망)에 따른 사고유형(차대차, 차대사람, 차단독) 간의 관계를 파악하고 샘플데이터에 대한 분류값을 예측해 보자.
+ 
+
+### 3. 분 석
+
+```{r include=FALSE}
+rm(list=ls())
+gc()
+```
+
+- step 1 : read.csv()로 csv파일을 불러온다.
+```{r}
+# local에 저장한 경로
+car_accident <- read.csv("/Users/hbk/data/car_accident.csv", stringsAsFactors = FALSE)
+str(car_accident)
+```
+
+- step 2 : 데이터 전처리
+```{r}
+# 분석에 필요없는 컬럼 제거
+car_accident[c("발생년","부상신고자수","사고유형_중분류","사고유형","법규위반_대분류","법규위반","도로형태_대분류","도로형태","당사자종별_1당_대분류","당사자종별_1당","당사자종별_2당_대분류","당사자종별_2당","발생위치X_UTMK","발생위치Y_UTMK")] <- NULL
+
+# mdt : month day time
+car_accident$mdt <- (car_accident$발생년월일시 - 2017000000) * 100 + car_accident$발생분
+
+# 기존에 월일시, 분 컬럼은 제거
+car_accident[c("발생년월일시","발생분")] <- NULL
+
+# mdt를 첫번째 컬럼으로 수정 
+car_accident <- car_accident[c(12,1:11)]
+str(car_accident)
+```
+
+- step 3. 장소별 분석
+```{r message=FALSE}
+#install.packages("ggmap")
+library(ggmap)
+```
+
+```{r message=FALSE}
+#install.packages("doBy")
+library(doBy)
+```
+
+```{r}
+# 발생지시도를 기준으로 사고발생한 횟수를 집계한다
+a <- aggregate(mdt~발생지시도, car_accident, length)
+colnames(a) <- c("장소","횟수")
+b <- orderBy(~-횟수,a)
+rownames(b) <- NULL
+b
+```
+
+```{r}
+# 막대그래프
+library(colorspace)
+ggplot(car_accident)+
+  geom_bar(aes(x=발생지시도), fill = rainbow_hcl(17), alpha = .7)
+```
+
+```{r}
+# 위에서 구한 집계값을 추가한다
+car <- merge(car_accident, b, by.x = "발생지시도", by.y = "장소")
+car <- orderBy(~mdt, car)
+rownames(car) <- NULL
+```
+
+```{r message=FALSE}
+# 지도를 통한 시각화
+southKorea <- get_map(location = c(128,36), zoom = 7, maptype = "roadmap", color = "bw")
+ggmap(southKorea)+
+  geom_point(data = car, aes(x = 경도, y = 위도, col = 횟수), size = .5, alpha = .5)
+```
+
