@@ -67,11 +67,14 @@ rownames(b) <- NULL
 b
 ```
 
-```{r}
+```{r, fig.width=10}
 # 막대그래프
+library(ggplot2)
 library(colorspace)
 ggplot(car_accident)+
-  geom_bar(aes(x=발생지시도), fill = rainbow_hcl(17), alpha = .7)
+  geom_bar(aes(x=발생지시도), fill = rainbow_hcl(17), alpha = .7)+
+  labs(title = "2017년 전국 자동차 사고현황")+
+  theme(plot.title=element_text(hjust=0.5))
 ```
 
 ```{r}
@@ -87,4 +90,33 @@ southKorea <- get_map(location = c(128,36), zoom = 7, maptype = "roadmap", color
 ggmap(southKorea)+
   geom_point(data = car, aes(x = 경도, y = 위도, col = 횟수), size = .5, alpha = .5)
 ```
+
+- step 4. 시간별 분석
+```{r}
+# mdt 문자로 변환
+car$mdt <- as.character(car$mdt)
+
+# m : month
+m <- NULL
+for (i in 1:NROW(car)){
+  m <- c(m,substr(car$mdt[i],1,nchar(car$mdt[i])-6))
+}
+car$m <-factor(m,c("1","2","3","4","5","6","7","8","9","10","11","12"))
+```
+
+```{r, fig.width=10}
+# 월별 자동차 사고
+ggplot(car)+
+  geom_bar(aes(x=m), fill = rainbow_hcl(12), width = .5)+
+  ggtitle("2017년 자동차사고 월별 현황")+
+  theme(plot.title=element_text(hjust=0.5))
+```
+
+10월달에 사고가 제일 많이 일어났다는걸 알수 있다.
+```{r}
+death_m <- aggregate(사망자수~m, car, sum)
+orderBy(~-사망자수,death_m)
+```
+
+역시나 사망자수도 10월이 제일 많았다.(삼가 고인의 명복을 빕니다.)
 
