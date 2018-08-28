@@ -1,5 +1,5 @@
 ---
-title: "carAccident_2017"
+title: "carAccident_2017(작성중)"
 author: "Kim tae hyo"
 date: '2018 8 2 '
 output: html_document
@@ -13,8 +13,7 @@ output: html_document
 
 ### 2. 목 적 
  - 2017년간 일어난 자동차 사고를 통해 장소별, 시간별 특징을 분석해 본다.
- - 시간, 장소에 따른 피해정도(경상, 중상, 사망) 간의 관계를 파악하고 샘플데이터에 대한 분류값을 예측해 보자. ==> 응급구조 배치에 참조
- - 피해정도(경상, 중상, 사망)에 따른 사고유형(차대차, 차대사람, 차단독) 간의 관계를 파악하고 샘플데이터에 대한 분류값을 예측해 보자.
+ - 머신러닝을 통한 중상자수를 예측해서 시간, 장소에 따른 응급출동대기 시스템 발전에 기여한다. 
  
 
 ### 3. 분 석
@@ -119,4 +118,49 @@ orderBy(~-사망자수,death_m)
 ```
 
 역시나 사망자수도 10월이 제일 많았다.(삼가 고인의 명복을 빕니다.)
+그럼 왜 하필 10월일까? 곰곰이 생각을 해보면 10월은 계절로 치면 가을에 속하고 이때
+수학여행, 등산여행, 단풍구경 등 단체관광이 증가하는 시기이다. 그래서 사고발생시 대형사고로
+이어지기 쉽기 때문이다.
+
+- step 5. 시간-장소 분석
+```{r, fig.width=10}
+m <- table(car$m, car$발생지시도)
+m <- as.data.frame(m)
+ggplot(m)+
+  geom_point(aes(x=Var1,y=Freq), 
+             col=ifelse(m$Freq >= 80, "red",  # 80이상이면 빨간
+                        ifelse(m$Freq >= 60,"brown",  # 60이상이면 갈색
+                               ifelse(m$Freq >= 40,"orange","darkgreen"))))+  # 40이상이면 오렌지
+  facet_wrap(~Var2)+
+  labs(x="month",y="accident_freq")
+```
+
+
+### 4. 머신러닝
+- 사상자수 중상자수를 예측하는 모델을 만들어 보자.
+- 자동차 사고에서 가장 중요한 것은 중상자수를 예측하는 것이다.
+
+[1] 데이터 수집
+```{r}
+carML <- car[c("m","주야","요일","발생지시도","사고유형_대분류","사상자수")]
+str(carML)
+```
+
+[2] 데이터 탐구
+```{r}
+summary(carML)
+attach(carML)
+```
+
+```{r include=FALSE}
+model <- lm(사상자수~사고유형_대분류+발생지시도, data = carML[-length(carML)])
+summary(model)
+pre <- predict(model, carML[-length(carML)])
+pre
+cor(carML[[length(carML)]],pre)
+```
+
+```{r}
+library()
+```
 
