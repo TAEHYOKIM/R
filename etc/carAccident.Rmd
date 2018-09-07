@@ -142,7 +142,11 @@ ggplot(m)+
 
 [1] 데이터 수집
 ```{r}
-carML <- car[c("m","주야","요일","발생지시도","사고유형_대분류","사상자수")]
+carML <- car[c("m","주야","요일","발생지시도","사고유형_대분류","횟수","중상자수")]
+carML$주야 <- as.factor(carML$주야)
+carML$요일 <- as.factor(carML$요일)
+carML$발생지시도 <- as.factor(carML$발생지시도)
+carML$사고유형_대분류 <- as.factor(carML$사고유형_대분류)
 str(carML)
 ```
 
@@ -152,15 +156,20 @@ summary(carML)
 attach(carML)
 ```
 
-```{r include=FALSE}
-model <- lm(사상자수~사고유형_대분류+발생지시도, data = carML[-length(carML)])
-summary(model)
-pre <- predict(model, carML[-length(carML)])
-pre
-cor(carML[[length(carML)]],pre)
+
+```{r}
+pairs(carML)
+```
+
+
+```{r}
+#install.packages("psych")
+library(psych)
 ```
 
 ```{r}
-library()
+pairs.panels(carML)
 ```
+위의 결과를 통해서 중상자수 발생에 선형적인 연관관계를 찾기 힘들다는 것을 알 수 있다.
+그래서 딥러닝으로 해결해보려 한다.
 

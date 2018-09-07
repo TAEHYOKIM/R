@@ -1,0 +1,8 @@
+---
+title: "Queue in R"
+author: "Kim tae hyo"
+date: '2018 9 7 '
+output: html_document
+---
+
+##
